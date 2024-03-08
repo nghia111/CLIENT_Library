@@ -13,33 +13,42 @@
       <nav class="header__nav">
         <div class="header__logo">
           <img class="header__logo-img" src="./assets/img/logo-book.png" alt="logo">
-          <h4 data-aos="fade-down">my library</h4>
+          <a href="index.php" data-aos="fade-down">my library</a>
           <div class="header__logo-overlay"></div>
         </div>
 
         <ul class="header__menu" data-aos="fade-down">
-          <li>
-            <a href="home.php">Home</a>
-          </li>
-          <li>
-            <a href="#food">Product</a>
-          </li>
-          <li>
-            <a href="#services">Services</a>
-          </li>
-          <li>
-            <a href="#about-us">Contact</a>
-          </li>
-          <li>
-          <a href="#about-us">Login</a>
-          </li>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="product.php">Product</a></li>
+          <li><a href="index.php">Services</a></li>
+          <li><a href="index.php">Contact</a></li>
+          <? if(Auth::isLoggedIn()): ?>
+              <li><a href="adduser.php">Add User</a></li>
+              <li><a href="addbook.php">Add Book</a></li>
+              <li><a href="logout.php">Logout</a></li>
+          <? else: ?>
+              <li><a href="login.php">Login</a></li>
+          <? endif; ?>
         </ul>
 
-        <ul class="header__menu-mobile" data-aos="fade-down">
-          <li>
-            <img src="./assets/img/menu.svg" alt="menu">
-          </li>
-        </ul>
+        <div class="header__menu-mobile" data-aos="fade-down">
+          <img src="./assets/img/menu.svg" alt="menu" class="menu-icon">
+          <div class="mobile-menu">
+            <ul class="mobile__menu-list">
+              <li><a href="index.php">Home</a></li>
+              <li><a href="product.php">Product</a></li>
+              <li><a href="index.php">Services</a></li>
+              <li><a href="index.php">Contact</a></li>
+              <? if(Auth::isLoggedIn()): ?>
+                <li><a href="adduser.php">Add User</a></li>
+                <li><a href="addbook.php">Add Book</a></li>
+                <li><a href="logout.php">Logout</a></li>
+              <? else: ?>
+                <li><a href="login.php">Login</a></li>
+              <? endif; ?>
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
     
@@ -49,3 +58,4 @@
     </div>
   </body>
 </html>
+

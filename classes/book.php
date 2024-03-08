@@ -8,19 +8,22 @@ class Book
   public $imagefile;
 
   private static $instance;
+  private $conn;
 
   // use singleton pattern
   public function __construct(
     $title = null,
     $description = null,
     $author = null,
-    $imagefile = null
+    $imagefile = null,
+    $db
   ) {
     // Hide the constructor
     $this->title = $title;
     $this->description = $description;
     $this->author = $author;
     $this->imagefile = $imagefile;
+    $this->conn = $db;
   }
 
   public static function getInstance(

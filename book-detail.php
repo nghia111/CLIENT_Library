@@ -30,8 +30,8 @@
             <hr>
             <div class="row">
                 <div class="book-detail_btn col">
-                    <button>Update</button>
-                    <button>Delete</button>
+                    <button class="btn">Update</button>
+                    <button class="btn">Delete</button>
                 </div>
             </div>
         </div>
