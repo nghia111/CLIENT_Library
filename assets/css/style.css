@@ -117,7 +117,7 @@ a {
 
 .table tbody tr td {
   background-color: var(--color-creamson);
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* Header */
@@ -191,6 +191,11 @@ a {
   width: 24px;
   height: 24px;
   object-fit: contain;
+}
+
+.header__menu li a {
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .header__menu-mobile {
@@ -408,6 +413,19 @@ a {
   margin-top: 7%;
 }
 
+/* Phân trang */
+
+.pagination .page-link {
+  /* background-color: var(--color-creamson); */
+  color: #020202;
+  padding: 15px 20px;
+}
+
+.pagination .active span{
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
 
 /* Footer */
 .footer {
@@ -580,6 +598,26 @@ a {
 }
 
 @media screen and (max-width: 550px) {
+
+  .mobile-menu {
+    display: none; 
+    position: absolute; 
+    top: 10%; 
+    right: 0%;
+    background-color: var(--color-creamson);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+
+  /* Table index */
+  .col-mobile {
+    display: none;
+  }
+
+  .table-search {
+    margin-top: 20px;
+  }
+
 
   .book-detail_title h2 {
     font-size: larger;

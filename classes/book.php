@@ -245,4 +245,42 @@ class Book
       return -1;
     }
   }
+  public static function getCategoryFromCategoryCode($conn, $category_code)
+  {
+    try {
+      $sql = "select value from categories where code=:category_code";
+      $stmt = $conn->prepare($sql);
+      $stmt->bindValue(':category_code', $category_code, PDO::PARAM_STR);
+      $stmt->execute();
+      return $stmt->fetchColumn();
+    } catch (PDOException $e ) {
+      echo $e->getMessage();
+      return null;
+    }
+  }
+  public static function getAllCategoriesController($conn){
+    $query = "SELECT * FROM categories";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $result= $stmt;
+    $conn = null;
+    $num = $result->rowCount();
+    if($num>0){
+        $results_array= [];
+        while($row= $result->fetch(PDO::PARAM_STR)){
+            extract($row);
+            $item = array(
+                'code'=> $code,
+                'value'=>$value
+            );
+            array_push($results_array,$item);
+        }
+        echo json_encode(array("message"=>"Successfully",'categories'=>$results_array));
+    }
+    else{
+        echo json_encode(array('message:'=>"không tìm thấy categories"));    
+    }
+  
+  }
 }
+

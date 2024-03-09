@@ -9,7 +9,7 @@
 
     <div class="footer__nav">
       <div class="footer__nav-item">
-        <a href="#menu">Menu</a>
+        <a href="/index.php">Home</a>
       </div>
       <div class="footer__nav-item">
         <a href="#Contact">Contact</a>

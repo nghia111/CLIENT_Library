@@ -3,6 +3,9 @@
     $conn = require('inc/db.php');
     $books = Book::getAllBooks($conn);
 
+    $page = null;
+    $categoryFilter = null;
+    $search_title =null;
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
@@ -31,17 +34,37 @@
 
 <!-- API  tất cả sách rồi thực hiện phân trang -->
 <?php
+    function generateCode($value){
+        $code = $value[0]. $value[-1].$value[1] .strlen($value) ;
+        return strtoupper($code);
+    }
 
+    // Kiểm tra xem đã có yêu cầu lọc sách theo danh mục hay chưa
+
+    if(isset($_GET['category'])){
+        if(!empty($_GET['category'])){ 
+            $categoryFilter = generatecode( $_GET['category']);
+        }else{
+            $categoryFilter = '';
+       }
+    }
     // Kiểm tra nếu có yêu cầu tìm kiếm
-    $search_title = isset($_GET['search']) ? $_GET['search'] : null;
+    if(isset($_GET['search'])){ 
+        $search_title =$_GET['search'] ;
+    }
 
-    if($search_title){
+    if(isset($_GET['page'])){ 
+        $getPage =  $_GET['page'] ;
+    }
+    if($search_title || $categoryFilter || $getPage){
         try {
             // API endpoint
             $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
             
+       
             // Số quyển sách trên mỗi trang
             $booksPerPage = 10;
+            
 
             // Xác định trang hiện tại
             if (isset($_GET['page'])) {
@@ -50,12 +73,22 @@
                 $page = 1;
             }
 
-            $search_title_code = urlencode($search_title);
+            $api_params = "?limit=$booksPerPage&page=$page";
 
-            $offset = ($page - 1) * $booksPerPage;
-            $api_params = "?title=$search_title_code&limit=$booksPerPage&page=$page";
+            if($search_title){
+                $search_title_code = urlencode($search_title);
+                $api_params .= "&title=$search_title";
+            }
+            if($categoryFilter){
+                $categoryFilter_code = urlencode($categoryFilter);
+                $api_params .= "&category_code=$categoryFilter_code";
+            }
+            echo $api_params;
+
             $response = file_get_contents($api_url . $api_params);
             $data = json_decode($response, true);
+
+            
 
             // Dữ liệu trả về từ API
             $books = $data['data'] ?? []; // Sử dụng toán tử null coalescing để xác định giá trị mặc định là mảng rỗng nếu không có dữ liệu trả về
@@ -65,7 +98,7 @@
         } catch (PDOException $e) {
             return $e->getMessage();
         }
-    } else {
+    }else {
         // API endpoint
         $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
             
@@ -80,7 +113,7 @@
         }
 
         // Gửi yêu cầu GET đến API để lấy dữ liệu sách
-        $offset = ($page - 1) * $booksPerPage;
+
         $api_params = "?limit=$booksPerPage&page=$page";
         $response = file_get_contents($api_url . $api_params);
         $data = json_decode($response, true);
@@ -103,12 +136,10 @@
             </div>
             
             <div class="list-group">
-                <button type="button" class="list-group-item list-group-item-action active" data-category="all">All</button>
-                <? foreach($data_categories["categories"] as $categories): ?>
-                    <div class="list-group">
-                    <button type="button" class="list-group-item list-group-item-action " data-category=""><? echo $categories['value'] ?></button>
-                </div>
-                <? endforeach; ?> 
+                <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
+                <?php foreach ($data_categories["categories"] as $category): ?>
+                    <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == $category['value']) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>
+                <?php endforeach; ?> 
             </div>
              
         </div>
@@ -170,31 +201,31 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <?php 
-                        // Hiển thị nút Previous (Trang trước)
-                        if($page > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1).'">Previous</a></li>';
-                        } else {
-                            echo '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
-                        }
-                        
-                        // Hiển thị các trang xung quanh trang hiện tại
-                        $startPage = max(1, $page - 2);
-                        $endPage = min($totalPages, $page + 2);
-                        
-                        for ($i = $startPage; $i <= $endPage; $i++) {
-                            if ($i == $page) {
-                                echo '<li class="page-item active"><span class="page-link">'.$i.'</span></li>';
+                            // Hiển thị nút Previous (Trang trước)
+                            if($page > 1) {
+                                echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1).'">Previous</a></li>';
                             } else {
-                                echo '<li class="page-item"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
+                                echo '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
                             }
-                        }
-                        
-                        // Hiển thị nút Next (Trang tiếp theo)
-                        if($page < $totalPages) {
-                            echo '<li class="page-item"><a class="page-link" href="?page='.($page + 1).'">Next</a></li>';
-                        } else {
-                            echo '<li class="page-item disabled"><span class="page-link">Next</span></li>';
-                        }
+                            
+                            // Hiển thị các trang xung quanh trang hiện tại
+                            $startPage = max(1, $page - 2);
+                            $endPage = min($totalPages, $page + 2);
+                            
+                            for ($i = $startPage; $i <= $endPage; $i++) {
+                                if ($i == $page) {
+                                    echo '<li class="page-item active"><span class="page-link">'.$i.'</span></li>';
+                                } else {
+                                    echo '<li class="page-item"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
+                                }
+                            }
+                            
+                            // Hiển thị nút Next (Trang tiếp theo)
+                            if($page < $totalPages) {
+                                echo '<li class="page-item"><a class="page-link" href="?page='.($page + 1).'">Next</a></li>';
+                            } else {
+                                echo '<li class="page-item disabled"><span class="page-link">Next</span></li>';
+                            }
                         ?>
                     </ul>
                 </nav>
@@ -202,6 +233,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Xử lý sự kiện khi nhấp vào nút danh mục sách
+    document.querySelectorAll('.list-group-item').forEach(item => {
+        item.addEventListener('click', event => {
+            const category = event.target.getAttribute('data-category');
+            const search = new URLSearchParams(window.location.search).get('search');
+            const page = new URLSearchParams(window.location.search).get('page');
+            const urlParams = new URLSearchParams();
+            urlParams.set('category', category);
+            urlParams.set('search', search);
+            urlParams.set('page', page);
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+            window.location.href = newUrl;
+        });
+    });
+</script>
 
 <?php
     require "./inc/footer.php";
