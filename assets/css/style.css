@@ -52,12 +52,24 @@ a {
   background-color: var(--primary-color);
   color: var(--color-white);
   border-radius: 10px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .btn:hover {
   opacity: 0.8;
   background-color: var(--primary-color);
   color: white;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
 }
 
 .flex-center {
@@ -426,6 +438,46 @@ a {
   color: #fff;
 }
 
+/* Add book */
+.addBook {
+  width: 100%;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  border-radius: 15px 15px 0 0;
+  color: #fff;
+  border: none;
+  padding: 20px;
+}
+
+.card-body {
+  background-color: var(--color-creamson);
+}
+
+.form-group,
+.button-group{
+  padding: 15px 30px;
+}
+
+.button-group{
+  display: flex;
+  justify-content: space-around;
+}
+
+.img_upload {
+  display: flex;
+  justify-content: center;
+}
+
+
+
 
 /* Footer */
 .footer {
@@ -635,7 +687,8 @@ a {
   .login-header__logo, .register-header__logo{
     padding: 0 !important;
   }
-  
+
+
   .footer__nav-item {
     margin: 0px 7px;
   }

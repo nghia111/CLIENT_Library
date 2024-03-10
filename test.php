@@ -3,6 +3,9 @@
     $conn = require('inc/db.php');
     $books = Book::getAllBooks($conn);
 
+    $page = null;
+    $categoryFilter = null;
+    $search_title =null;
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
@@ -44,19 +47,21 @@
         }else{
             $categoryFilter = '';
        }
-    }else {
-        $categoryFilter = '';
     }
     // Kiểm tra nếu có yêu cầu tìm kiếm
-    $search_title = isset($_GET['search']) ? $_GET['search'] : null;
+    if(isset($_GET['search'])){ 
+        $search_title =$_GET['search'] ;
+    }
 
-    if($search_title){
+    if($search_title || $categoryFilter){
         try {
             // API endpoint
             $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
             
+       
             // Số quyển sách trên mỗi trang
             $booksPerPage = 10;
+            
 
             // Xác định trang hiện tại
             if (isset($_GET['page'])) {
@@ -65,44 +70,23 @@
                 $page = 1;
             }
 
-            $search_title_code = urlencode($search_title);
+            $api_params = "?limit=$booksPerPage&page=$page";
 
-            $api_params = "?title=$search_title_code&limit=$booksPerPage&page=$page";
-            $response = file_get_contents($api_url . $api_params);
-            $data = json_decode($response, true);
-
-            // Dữ liệu trả về từ API
-            $books = $data['data'] ?? []; // Sử dụng toán tử null coalescing để xác định giá trị mặc định là mảng rỗng nếu không có dữ liệu trả về
-            $totalPages = $data['total_page'] ?? 0; // Sửa key thành 'total_page' thay vì 'total' 
-              
-
-        } catch (PDOException $e) {
-            return $e->getMessage();
-        }
-    }else if($categoryFilter){
-        try {
-            // API endpoint
-            $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
-            
-            // Số quyển sách trên mỗi trang
-            $booksPerPage = 10;
-
-            // Xác định trang hiện tại
-            if (isset($_GET['page'])) {
-                $page = $_GET['page'];
-            } else {
-                $page = 1;
+            if($search_title){
+                $search_title_code = urlencode($search_title);
+                $api_params .= "&title=$search_title";
             }
-
-            $categoryFilter_code = urlencode($categoryFilter);
-
-         
-            $api_params = "?category_code=$categoryFilter_code&limit=$booksPerPage&page=$page";
-            $response = file_get_contents($api_url . $api_params);
-            $data = json_decode($response, true);
-
+            if($categoryFilter){
+                $categoryFilter_code = urlencode($categoryFilter);
+                $api_params .= "&category_code=$categoryFilter_code";
+            }
             echo $api_params;
 
+            $response = file_get_contents($api_url . $api_params);
+            $data = json_decode($response, true);
+
+            
+
             // Dữ liệu trả về từ API
             $books = $data['data'] ?? []; // Sử dụng toán tử null coalescing để xác định giá trị mặc định là mảng rỗng nếu không có dữ liệu trả về
             $totalPages = $data['total_page'] ?? 0; // Sửa key thành 'total_page' thay vì 'total' 
@@ -111,7 +95,7 @@
         } catch (PDOException $e) {
             return $e->getMessage();
         }
-    } else {
+    }else {
         // API endpoint
         $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
             
@@ -151,7 +135,7 @@
             <div class="list-group">
                 <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
                 <?php foreach ($data_categories["categories"] as $category): ?>
-                    <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == $category['value']) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>
+                    <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == generateCode($category['value'])) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>
                 <?php endforeach; ?> 
             </div>
              
@@ -213,32 +197,42 @@
             <div class="pagination justify-content-center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <?php 
-                        // Hiển thị nút Previous (Trang trước)
-                        if($page > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1).'">Previous</a></li>';
-                        } else {
-                            echo '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
-                        }
-                        
-                        // Hiển thị các trang xung quanh trang hiện tại
-                        $startPage = max(1, $page - 2);
-                        $endPage = min($totalPages, $page + 2);
-                        
-                        for ($i = $startPage; $i <= $endPage; $i++) {
-                            if ($i == $page) {
-                                echo '<li class="page-item active"><span class="page-link">'.$i.'</span></li>';
-                            } else {
-                                echo '<li class="page-item"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
+                        <?php
+                            $currentSearch = isset($_GET['search']) ? $_GET['search'] : '';
+                            $currentCategory = isset($_GET['category']) ? $_GET['category'] : ''; 
+                            $pageUrl = '';
+                            if (!empty($currentSearch)) {
+                            $pageUrl .= '&search=' . urlencode($currentSearch);
                             }
-                        }
-                        
-                        // Hiển thị nút Next (Trang tiếp theo)
-                        if($page < $totalPages) {
-                            echo '<li class="page-item"><a class="page-link" href="?page='.($page + 1).'">Next</a></li>';
-                        } else {
-                            echo '<li class="page-item disabled"><span class="page-link">Next</span></li>';
-                        }
+    
+                            if (!empty($currentCategory)) {
+                                $pageUrl .= '&category=' . urlencode($currentCategory);
+                            }
+                            // Hiển thị nút Previous (Trang trước)
+                            if($page > 1) {
+                                echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1). $pageUrl.'">Previous</a></li>';
+                            } else {
+                                echo '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
+                            }
+                            
+                            // Hiển thị các trang xung quanh trang hiện tại
+                            $startPage = max(1, $page - 2);
+                            $endPage = min($totalPages, $page + 2);
+                            
+                            for ($i = $startPage; $i <= $endPage; $i++) {
+                                if ($i == $page) {
+                                    echo '<li class="page-item active"><span class="page-link">'.$i.'</span></li>';
+                                } else {
+                                    echo '<li class="page-item"><a class="page-link" href="?page='.$i. $pageUrl.'">'.$i.'</a></li>';
+                                }
+                            }
+                            
+                            // Hiển thị nút Next (Trang tiếp theo)
+                            if($page < $totalPages) {
+                                echo '<li class="page-item"><a class="page-link" href="?page='.($page + 1). $pageUrl.'">Next</a></li>';
+                            } else {
+                                echo '<li class="page-item disabled"><span class="page-link">Next</span></li>';
+                            }
                         ?>
                     </ul>
                 </nav>
@@ -248,27 +242,14 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Xử lý sự kiện khi nhấp vào nút danh mục sách
-        document.querySelectorAll('.list-group-item').forEach(item => {
-            item.addEventListener('click', event => {
-                event.preventDefault(); // Ngăn chặn hành vi mặc định của nút
-
-                // Loại bỏ lớp CSS 'active' từ tất cả các nút
-                document.querySelectorAll('.list-group-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                // Thêm lớp CSS 'active' cho nút được nhấp vào
-                event.target.classList.add('active');
-
-                const category = event.target.getAttribute('data-category');
-                window.location.href = 'test.php?category=' + category;
-            });
+    // Xử lý sự kiện khi nhấp vào nút danh mục sách
+    document.querySelectorAll('.list-group-item').forEach(item => {
+        item.addEventListener('click', event => {
+            const category = event.target.getAttribute('data-category');
+            window.location.href = 'test.php?category=' + category;
         });
     });
 </script>
-
 
 <?php
     require "./inc/footer.php";
