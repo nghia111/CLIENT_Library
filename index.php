@@ -1,8 +1,7 @@
 <?php
     require "inc/init.php";
     $conn = require('inc/db.php');
-    $books = Book::getAllBooks($conn);
-
+    $books = [];
     $page = null;
     $categoryFilter = null;
     $search_title =null;
@@ -43,7 +42,7 @@
 
     if(isset($_GET['category'])){
         if(!empty($_GET['category'])){ 
-            $categoryFilter = generatecode( $_GET['category']);
+            $categoryFilter = generatecode($_GET['category']);
         }else{
             $categoryFilter = '';
        }
@@ -74,7 +73,7 @@
 
             if($search_title){
                 $search_title_code = urlencode($search_title);
-                $api_params .= "&title=$search_title";
+                $api_params .= "&title=$search_title_code";
             }
             if($categoryFilter){
                 $categoryFilter_code = urlencode($categoryFilter);
@@ -88,8 +87,7 @@
 
             // Dữ liệu trả về từ API
             $books = $data['data'] ?? []; // Sử dụng toán tử null coalescing để xác định giá trị mặc định là mảng rỗng nếu không có dữ liệu trả về
-            $totalPages = $data['total_page'] ?? 0; // Sửa key thành 'total_page' thay vì 'total' 
-              
+            $totalPages = $data['total_page'] ?? 0; // Sửa key thành 'total_page' thay vì 'total' 4
         } catch (PDOException $e) {
             return $e->getMessage();
         }
@@ -168,18 +166,20 @@
                         $no = ($page - 1) * $booksPerPage + 1;
                         if(isset($books) && is_array($books)) { // Kiểm tra nếu có dữ liệu sách trả về và là một mảng
                             foreach ($books as $book) {
-                                ?>
-                                <tr href="book-detail.php" >
-                                    <td align="center"><?php echo $no++; ?></td>
-                                    <td align="center"><?php echo $book['title']; ?></td>
-                                    <td class="col-mobile" align="center"><?php echo $book['category_value']; ?></td>
-                                    <td class="col-mobile"><?php echo $book['description']; ?></td>
-                                    <td align="center"><?php echo $book['author']; ?></td>
-                                    <td align="center">
-                                        <img src="<?php echo $book['image']; ?>" alt="" width="100" height="100">
-                                    </td>
-                                </tr>
-                            <?php }
+                    ?>
+                                    <tr>
+                                        <td align="center"><?php echo $no++; ?></td>
+                                        <td align="center"><?php echo $book['title']; ?></td>
+                                        <td class="col-mobile" align="center"><?php echo $book['category_value']; ?></td>
+                                        <td class="col-mobile"><?php echo $book['description']; ?></td>
+                                        <td align="center"><?php echo $book['author']; ?></td>
+                                        <td align="center">
+                                            <img src="<?php echo $book['image']; ?>" alt="" width="100" height="150">
+                                            <a class="btn btn-read_more" href="book-detail.php?id=<?=htmlspecialchars($book['id'])?>#book_detail">Detail</a>
+                                        </td>
+                                    </tr>
+                                
+                    <?php }
                         } else {
                             echo "<tr><td colspan='6'>No books found</td></tr>"; // Thông báo nếu không có sách nào được tìm thấy
                         }
