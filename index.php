@@ -9,7 +9,7 @@
 
 <!-- API lấy tất cả tên thể loại của sách -->
 <?
-    $url = "http://localhost/CT06/do_an/api/routes/book/get_all_categories.php";
+    $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
         echo "Lỗi khi gọi API";
@@ -55,7 +55,7 @@
     if($search_title || $categoryFilter){
         try {
             // API endpoint
-            $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
+            $api_url = BOOK_URL . "/get_books.php";
             
        
             // Số quyển sách trên mỗi trang
@@ -93,7 +93,7 @@
         }
     }else {
         // API endpoint
-        $api_url = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
+        $api_url =BOOK_URL . "/get_books.php";
             
         // Số quyển sách trên mỗi trang
         $booksPerPage = 10;

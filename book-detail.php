@@ -1,7 +1,7 @@
 <?php
 require "inc/init.php";
 $conn = require("inc/db.php");
-$BASE_URL = "http://localhost/CT06/do_an/api/routes/book";
+
 
 if (isset($_COOKIE['role'])) {
     $role = $_COOKIE['role'];
@@ -12,7 +12,7 @@ require "./inc/header.php";
 // Lấy thông tin sách theo ID
 $id = $_GET['id'];
 try {
-    $url = "http://localhost/CT06/do_an/api/routes/book/get_book_by_id.php";
+    $url = BOOK_URL . "/get_book_by_id.php";
     $api_params = "?id=$id";
     $response = file_get_contents($url . $api_params);
     if ($response === false) {
@@ -36,14 +36,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $access_token = $_COOKIE['access_token'];
 
     // Chuẩn bị dữ liệu để gửi đến API
-    $deleteBookUrl = $BASE_URL . "/delete_book.php?id=" . $idToDelete;
+    $deleteBookUrl = BOOK_URL . "/delete_book.php?id=" . $idToDelete;
 
     // Khởi tạo cURL handle
     $ch = curl_init($deleteBookUrl);
 
     // Thiết lập các tùy chọn cURL
     $headers = array(
+        "Content-Type: application/x-www-form-urlencoded",
         "Authorization: Bearer " . $access_token,
+        
     );
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -61,7 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Xử lý kết quả từ API
     if ($httpCode === 200) {
         // Xóa thành công, có thể redirect hoặc hiển thị thông báo tùy ý
-        header("Location: index.php");
+        echo "<script>
+        var cmm = JSON.stringify($response); 
+        alert(cmm) 
+        window.location.href = 'index.php'; 
+            </script>";
         exit();
     } else {
         // Xóa không thành công, hiển thị thông báo lỗi
@@ -73,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?
     function borrowBook ($id) {
 
-        $Borrow_url = "http://localhost/CT06/do_an/api/routes/borrow_return_books/create_borrow_book.php";
+        $Borrow_url = BRB_URL . "/create_borrow_book.php";
         $headers = array(
             "Content-Type: application/x-www-form-urlencoded",
             "Authorization: Bearer " . $_COOKIE['access_token'] ,

@@ -8,7 +8,7 @@
 ?>
     <!-- Lay tat ca lenh muon tra sach -->
     <?
-    $AllBRB_url =  $BASE_URL . "/borrow_return_books/get_borrow_return_books.php";
+    $AllBRB_url =  BRB_URL . "/get_borrow_return_books.php";
 
     $ch = curl_init($AllBRB_url);
     $headers = array(
@@ -33,7 +33,7 @@
     ?>
     <!-- Lay tat ca user  -->
     <?
-        $AllUserUrl = $BASE_URL . "/user/get_users.php";
+        $AllUserUrl = USER_URL . "/get_users.php";
         $ch = curl_init($AllUserUrl);
         $headers = array(
         "Content-Type: application/x-www-form-urlencoded",
@@ -59,7 +59,7 @@
 
     <!-- thong tin user -->
     <?
-        $ProfileUrl = $BASE_URL . "/user/get_my_profile.php";
+        $ProfileUrl = USER_URL . "/get_my_profile.php";
         $ch = curl_init($ProfileUrl);
         $headers = array(
         "Content-Type: application/x-www-form-urlencoded",
@@ -85,7 +85,7 @@
 <?
     function AcceptRejectBRB($id){
         $type = $_GET['type'];
-        $processUrl = "http://localhost/CT06/do_an/api/routes/borrow_return_books/accept_reject_borrow.php?type=" . $type;
+        $processUrl = BRB_URL . "/accept_reject_borrow.php?type=" . $type;
         $headers = array(
             "Content-Type: application/x-www-form-urlencoded",
             "Authorization: Bearer " . $_COOKIE['access_token'] ,

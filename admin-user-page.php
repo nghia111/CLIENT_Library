@@ -3,12 +3,12 @@
 require "./inc/init.php";
 $conn = require('inc/db.php');
 require "./inc/header.php";
-$BASE_URL = "http://localhost/CT06/do_an/api/routes";
+
 
 ?>
 <?
         $userId = $_GET['id'];
-        $ProfileUrl = $BASE_URL . "/user/get_users.php" . "?id=" . $userId ;
+        $ProfileUrl = USER_URL . "/get_users.php" . "?id=" . $userId ;
         $ch = curl_init($ProfileUrl);
         $headers = array(
         "Content-Type: application/x-www-form-urlencoded",
@@ -35,7 +35,7 @@ $BASE_URL = "http://localhost/CT06/do_an/api/routes";
 <?
 
     $BRBId = $_GET['id'];
-    $AllBRB_url =  $BASE_URL . "/borrow_return_books/get_borrow_return_books.php" . "?user_id=" . $BRBId;
+    $AllBRB_url =  BRB_URL . "/get_borrow_return_books.php" . "?user_id=" . $BRBId;
 
     $ch = curl_init($AllBRB_url);
     $headers = array(
@@ -63,7 +63,7 @@ $BASE_URL = "http://localhost/CT06/do_an/api/routes";
 <?
     function AcceptRejectBRB($id){
         $type = $_GET['type'];
-        $processUrl = "http://localhost/CT06/do_an/api/routes/borrow_return_books/accept_reject_borrow.php?type=" . $type;
+        $processUrl = BRB_URL . "/accept_reject_borrow.php?type=" . $type;
         $headers = array(
             "Content-Type: application/x-www-form-urlencoded",
             "Authorization: Bearer " . $_COOKIE['access_token'] ,
@@ -137,12 +137,12 @@ $BASE_URL = "http://localhost/CT06/do_an/api/routes";
                         <? if($key->status == 0) : 
 
                      ?>
-                        <td>
+                        
                         <td>
                             <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<? echo $key->id?>&id=<?echo $key->user_id?> ">Chấp nhận</a>
                             <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>">Từ chối</a>
                         </td>
-                        </td>
+                        
                     <? elseif($key->status == 1 ): ?>
                         <td>
                             <div class="btn px-0 py-1 btn-accept" style="width: 100px;" >Đã chấp nhận</div>

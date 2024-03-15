@@ -2,10 +2,10 @@
 require "./inc/init.php";
 $conn = require('inc/db.php');
 require "./inc/header.php";
-$BASE_URL = "http://localhost/CT06/do_an/api/routes";
+
 ?>
 <?
-        $ProfileUrl = $BASE_URL . "/user/get_my_profile.php";
+        $ProfileUrl = USER_URL . "/get_my_profile.php";
         $ch = curl_init($ProfileUrl);
         $headers = array(
         "Content-Type: application/x-www-form-urlencoded",
@@ -30,7 +30,7 @@ $BASE_URL = "http://localhost/CT06/do_an/api/routes";
 
 
 <?
-    $AllBRB_url =  $BASE_URL . "/borrow_return_books/get_my_borrow_return_books.php";
+    $AllBRB_url = BRB_URL . "/get_my_borrow_return_books.php";
 
     $ch = curl_init($AllBRB_url);
     $headers = array(
@@ -54,7 +54,7 @@ $BASE_URL = "http://localhost/CT06/do_an/api/routes";
 <?
     function ReturnBRB($id){
         
-        $processUrl = "http://localhost/CT06/do_an/api/routes/borrow_return_books/create_return_book.php" ;
+        $processUrl =  BRB_URL . "/create_return_book.php" ;
         $headers = array(
             "Content-Type: application/x-www-form-urlencoded",
             "Authorization: Bearer " . $_COOKIE['access_token'] ,

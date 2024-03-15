@@ -1,7 +1,6 @@
 <?
     require "inc/init.php";
     $conn = require("inc/db.php");
-    $BASE_URL = "http://localhost/CT06/do_an/api/routes/book";
 ?>
 
 <?
@@ -10,7 +9,7 @@
 
 <!-- API lấy tất cả tên thể loại của sách -->
 <?
-    $url = $BASE_URL . "/get_all_categories.php";
+    $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
         echo "Lỗi khi gọi API";
@@ -29,8 +28,8 @@
 <?
     $id = $_GET['id'];
     try {
-        $api_params = "/get_book_by_id.php?id=$id";
-        $response = file_get_contents($BASE_URL . $api_params);
+        $api_params = BOOK_URL . "/get_book_by_id.php?id=$id";
+        $response = file_get_contents($api_params);
         if ($response === false) {
             echo "Lỗi khi gọi API";
         } else {
@@ -71,7 +70,7 @@
         ];
 
 
-        $updateBookUrl = $BASE_URL . "/update_book.php?id=" . urlencode($id);;
+        $updateBookUrl = BOOK_URL . "/update_book.php?id=" . urlencode($id);;
         $ch = curl_init($updateBookUrl);
         
         $headers = array(

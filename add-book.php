@@ -1,7 +1,6 @@
 <?
     require "inc/init.php";
     $conn = require("inc/db.php");
-    $BASE_URL = "http://localhost/CT06/do_an/api/routes/book";
 ?>
 
 <?
@@ -10,7 +9,7 @@
 
 <!-- API lấy tất cả tên thể loại của sách -->
 <?
-    $url = $BASE_URL . "/get_all_categories.php";
+    $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
         echo "Lỗi khi gọi API";
@@ -48,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'image' => $image
     ];
 
-    $createBookUrl = $BASE_URL . "/create_book.php";
+    $createBookUrl = BOOK_URL . "/create_book.php";
     $ch = curl_init($createBookUrl);
     
     $headers = array(
@@ -71,7 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Xử lý kết quả từ API
     if ($httpCode === 200) {
         $object = json_decode($response);
-        header('Location: index.php'); 
+        echo "<script> 
+        window.location.href = 'index.php';     
+    </script>";
     } else {
         echo "<script> 
         var cmm = JSON.stringify($response); 
@@ -138,12 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<!-- <script>
+<script>
     function displayImage(url) {
       var img = document.getElementById('book-image');
       img.src = url || "./uploads/no_image.jpg";
     }
-</script> -->
+</script>
 
 <?
     require "inc/footer.php";

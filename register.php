@@ -3,7 +3,6 @@
 ?>
 
 <?
-  $BASE_URL = "http://localhost/CT06/do_an/api/routes/auth";
   
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usernameError = "";
@@ -22,7 +21,7 @@
         'name' => $username,
         'confirm_password' => $confirm_password
       );
-      $url = $BASE_URL . "/register.php";
+      $url = AUTH_URL . "/register.php";
       $ch = curl_init($url);
 
       $headers = array(

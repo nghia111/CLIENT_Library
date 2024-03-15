@@ -1,12 +1,12 @@
 <? 
     require "./inc/init.php";
     $conn = require('inc/db.php');
-    $BASE_URL = "http://localhost/CT06/do_an/api/routes/book/get_books.php";
 ?>
 
 <?         
+    $books_url = BOOK_URL . "get_books.php";
     // Gửi yêu cầu GET đến API để lấy dữ liệu sách
-    $response = file_get_contents($BASE_URL . "?limit=99&page=1");
+    $response = file_get_contents($books_url . "?limit=99&page=1");
     $data = json_decode($response, true);
 
     // Dữ liệu trả về từ API
