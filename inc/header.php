@@ -2,12 +2,16 @@
   function logOut(){
     $access_token = "";
     $refresh_token = "";
+    $role = "";
 
     if (isset($_COOKIE['access_token'])) {
       $access_token = $_COOKIE['access_token'];
     }
     if (isset($_COOKIE['refresh_token'])) {
       $refresh_token = $_COOKIE['refresh_token'];
+    }
+    if (isset($_COOKIE['role'])) {
+      $role = $_COOKIE['role'];
     }
     $BASE_URL = "http://localhost/CT06/do_an/api/routes/auth";
     // Cấu hình URL và thông tin yêu cầu
@@ -47,6 +51,7 @@
       $object = json_decode($response);
       setcookie('access_token', '', 0, '/');
       setcookie('refresh_token', '', 0, '/');
+      setcookie('role', '', 0, '/');
       header("Location: index.php");
     } else {
       // Xử lý lỗi
@@ -85,8 +90,14 @@
         <li><a href="product.php#product">Product</a></li>
         <li><a href="contact-us.php#contact">Contact</a></li>
         <? if (isset($_COOKIE['access_token'])) : ?>
-          <li><a href="add-book.php#add_book">Add Book</a></li>
           <li><a href="./?log_out=true">Logout</a></li>
+          <? if ($_COOKIE['role'] == "AD") : ?>
+            <li><a href="add-book.php#add_book">Add Book</a></li>
+            <li><a href="admin-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+          <? endif; ?>
+          <? if ($_COOKIE['role'] == "UR") : ?>
+            <li><a href="user-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+          <? endif; ?>
         <? else : ?>
           <li><a href="login.php#login">Login</a></li>
         <? endif; ?>
@@ -103,6 +114,7 @@
             <? if (isset($_COOKIE['access_token'])) : ?>
               <li><a menu-link="Add Book" href="add-book.php#add_book">Add Book</a></li>
               <li><a href="./?log_out=true">Logout</a></li>
+              <li><a href=""><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
             <? else : ?>
               <li><a href="login.php#login">Login</a></li>
             <? endif; ?>

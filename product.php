@@ -6,7 +6,6 @@
 ?>
 
 <?         
-
     // Gửi yêu cầu GET đến API để lấy dữ liệu sách
     $response = file_get_contents($BASE_URL . "?limit=99&page=1");
     $data = json_decode($response, true);
@@ -28,7 +27,7 @@
               <div class="card-body">
                   <h5 class="card-title"><?php echo $b['title'] ?></h5>
                   <p class="card-text"><?php echo $b['description'] ?></p>
-                  <a href="#" class="btn btn-read">Book Detail</a>
+                  <a href="book-detail.php?id=<?=htmlspecialchars($b['id'])?>#book_detail" class="btn btn-read">Book Detail</a>
               </div>
           </div>
           <?php if ($key == 7) break; ?> <!-- Stop after showing 8 books -->

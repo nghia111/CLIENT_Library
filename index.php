@@ -174,7 +174,8 @@
                                         <td class="col-mobile"><?php echo $book['description']; ?></td>
                                         <td align="center"><?php echo $book['author']; ?></td>
                                         <td align="center">
-                                            <img src="<?php echo $book['image']; ?>" alt="" width="100" height="150">
+                                            <!-- <img src="<?php echo $book['image']; ?>" alt="" width="100" height="150"> -->
+                                            <img src="<?php echo ($book['image'] == "") ? "./uploads/no_image.jpg" : $book['image']; ?>" alt="image book" width="100" height="150">
                                             <a class="btn btn-read_more" href="book-detail.php?id=<?=htmlspecialchars($book['id'])?>#book_detail">Detail</a>
                                         </td>
                                     </tr>

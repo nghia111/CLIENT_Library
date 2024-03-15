@@ -1,6 +1,7 @@
 <?
     require "inc/init.php";
     $conn = require("inc/db.php");
+    $BASE_URL = "http://localhost/CT06/do_an/api/routes/book";
 ?>
 
 <?
@@ -9,7 +10,7 @@
 
 <!-- API lấy tất cả tên thể loại của sách -->
 <?
-    $url = "http://localhost/CT06/do_an/api/routes/book/get_all_categories.php";
+    $url = $BASE_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
         echo "Lỗi khi gọi API";
@@ -35,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST["category"];
     $author = $_POST["author"];
     $image = $_POST["image"];
+    $access_token = $_COOKIE['access_token'];
 
     // Chuẩn bị dữ liệu để gửi đến API
     $data = [
@@ -46,35 +48,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'image' => $image
     ];
 
-    // Chuyển dữ liệu thành JSON
-    $data_json = json_encode($data);
+    $createBookUrl = $BASE_URL . "/create_book.php";
+    $ch = curl_init($createBookUrl);
+    
+    $headers = array(
+        "Content-Type: application/x-www-form-urlencoded",
+        "Authorization: Bearer " . $access_token,
+    );
 
-    // Thiết lập các tùy chọn cho yêu cầu HTTP
-    $options = [
-        'http' => [
-            'header' => "Content-Type: application/json\r\n",
-            'method' => 'POST',
-            'content' => $data_json
-        ]
-    ];
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+    $response = curl_exec($ch);
 
-    // Tạo ngữ cảnh HTTP
-    $context = stream_context_create($options);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // Gửi yêu cầu HTTP đến API
-    $url = "http://localhost/CT06/do_an/api/routes/book/create_book.php";
-    $result = file_get_contents($url, false, $context);
+    curl_close($ch);
+
 
     // Xử lý kết quả từ API
-    if ($result === false) {
-        echo "Lỗi khi gọi API";
+    if ($httpCode === 200) {
+        $object = json_decode($response);
+        header('Location: index.php'); 
     } else {
-        $response = json_decode($result, true);
-        if ($response['success']) {
-            echo "Thêm sách thành công";
-        } else {
-            echo "Lỗi khi thêm sách: " . $response['message'];
-        }
+        echo "<script> 
+        var cmm = JSON.stringify($response); 
+                  alert(cmm)      
+        </script>";
     }
 }
     
@@ -89,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3 class="mb-0 text-center">Add Book</h3>
           </div>
           <div class="card-body">
-            <form class="row" action="add_book.php" method="POST">
+            <form class="row" action="add-book.php" method="POST">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="title">Title</label>
@@ -119,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="image">Image URL</label>
-                        <input type="url" class="form-control" id="image" name="image" oninput="displayImage(this.value)" required>
+                        <input type="url" class="form-control" id="image" name="image" oninput="displayImage(this.value)">
                     </div>
                     <div class="img_upload form-group">
                         <img id="book-image" src="./uploads/no_image.jpg" alt="Book Image" style="max-width: 80%; height: auto;">
@@ -136,12 +138,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
-<script>
+<!-- <script>
     function displayImage(url) {
       var img = document.getElementById('book-image');
       img.src = url || "./uploads/no_image.jpg";
     }
-</script>
+</script> -->
 
 <?
     require "inc/footer.php";

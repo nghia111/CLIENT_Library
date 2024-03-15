@@ -1,7 +1,6 @@
 <?
     require "inc/init.php";
-    $conn = require("inc/db.php");
-
+    ini_set('display_errors', 'off');
     $BASE_URL = "http://localhost/CT06/do_an/api/routes/auth";
 ?>
     <!-- LOGIN  -->
@@ -46,6 +45,7 @@
             $object = json_decode($response);
             $accessToken =  $object->access_token;
             $refreshToken =  $object->refresh_token;
+            $role = $object->role;
 
             echo $response;
 
@@ -53,6 +53,7 @@
             $expirationTime = time() + (5 * 24 * 60 * 60);
             setcookie("access_token", $accessToken, $expirationTime, "/");
             setcookie("refresh_token", $refreshToken, $expirationTime, "/");
+            setcookie("role", $role, $expirationTime, "/");
             header("Location: index.php");
         } else {
             // Xử lý lỗi
@@ -109,11 +110,9 @@
 
                 </div>
                 <div class="form-login__img col-sm-6 px-0 d-none d-sm-block">
-                    <!-- <img src="https://i.pinimg.com/564x/6d/52/60/6d5260b4e265aad38be8f8b8931776f0.jpg"
-                    alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;"> -->
+                    <!-- <img src="https://i.pinimg.com/564x/6d/52/60/6d5260b4e265aad38be8f8b8931776f0.jpg" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;"> -->
 
-                    <img src="https://i.pinimg.com/564x/b4/d4/2e/b4d42eee67bd0f7b8b178679dc447e44.jpg"
-                    alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+                    <img src="https://i.pinimg.com/564x/b4/d4/2e/b4d42eee67bd0f7b8b178679dc447e44.jpg" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
                 </div>
             </div>
         </div>
