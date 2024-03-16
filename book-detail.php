@@ -1,6 +1,5 @@
 <?php
 require "inc/init.php";
-$conn = require("inc/db.php");
 
 
 if (isset($_COOKIE['role'])) {
@@ -29,7 +28,7 @@ try {
     return $e->getMessage();
 }
 
-// Xử lý xóa sách bằng cURL
+// Xử lý xóa sách
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Thu thập id của sách cần xóa
     $idToDelete = $_GET["id"];
@@ -76,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<!-- Hàm mượn sách -->
 <?
     function borrowBook ($id) {
 
@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <hr>
             <div class="book-detail_desc row">
                 <p>Description: <?php echo $book['description']; ?></p>
-                <h5>Author: <?php echo $book['author']; ?> Crist Topfer</h5>    
+                <h5>Author: <?php echo $book['author']; ?></h5>    
             </div>
             <hr>
             <div class="button-group">
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </form>
                     <? elseif($role == "UR") : ?>
                         <button class="btn"><a href="./book-detail.php?id=<?=htmlspecialchars($book['id'])?>&borrow=true">Borrow</a></button>
-                        
+                        <a href="index.php" class="btn btn-cancel">Cancel</a>
                     <? else: ?>
 
                     <? endif; ?>

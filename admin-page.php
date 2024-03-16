@@ -123,7 +123,7 @@
 
 <div class="content">
     <div class="admin-page row"> 
-        <div class="col-lg-4">
+        <div class="col-lg-12">
             <div class="user-information">
                 <h5 class="text-center mt-3">Thông tin quản trị viên</h5>
                 <div class="m-3">
@@ -134,95 +134,92 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
-            
-
-            <div id="user-manager" style="display: block;">
-            <table class="table">
-                <thead align="center">
-                    <tr>
-                        <th scope="col" align="center">ID</th>
-                        <th scope="col" align="center">Tên người dùng</th>
-                        <th scope="col" align="center">Email</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody align="center">
-                    
-                <? foreach ($UserObject->data as $key ) :?>
-                        
+        <div class="col-lg-12">
+            <div id="user-manager" class="mt-4">
+                <table class="table">
+                    <thead align="center">
                         <tr>
-                            <td><? echo $key->id  ?></td>
-                            <td><? echo $key->name  ?></td>
-                            <td><? echo $key->email  ?></td>
-                            <td>
-                                <a href="admin-user-page.php?id=<? echo $key->id ?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
-                                
-                            </td>
+                            <th scope="col" align="center">ID</th>
+                            <th scope="col" align="center">Tên người dùng</th>
+                            <th scope="col" align="center">Email</th>
+                            <th scope="col"></th>
                         </tr>
-                <? endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody align="center">
+                        
+                    <? foreach ($UserObject->data as $key ) :?>
+                            
+                            <tr>
+                                <td><? echo $key->id  ?></td>
+                                <td><? echo $key->name  ?></td>
+                                <td><? echo $key->email  ?></td>
+                                <td>
+                                    <a href="admin-user-page.php?id=<? echo $key->id ?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
+                                    
+                                </td>
+                            </tr>
+                    <? endforeach; ?>
+                    </tbody>
+                </table>
             </div>
             
             <div id="borrow-return" style="display: block;">
-            <table class="table">
-                <thead align="center">
-                    <tr>
-                        <th scope="col">ID Phiếu</th>
-                        <th scope="col">Tên sách</th>
-                        <th scope="col">ID sách</th>
-                        <th scope="col">Tên người dùng</th>
-                        <th scope="col">ID người dùng</th>
-                        <th scope="col">Ngày mượn</th>
-                        <th scope="col">Ngày trả</th>
-                        <th scope="col" style="width: 222px;">Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody align="center">
-                <? if(!isset($BRBobject->data)) {
-                        echo " <h5> Không có phiếu mượn.</h5>";
-                        return;
-                    } else { ?>
-                    <? foreach ($BRBobject->data as $key ) :?>
-                        
-                    <tr>
-                        <td><? echo $key->id  ?></td>
-                        <td><? echo $key->book_title  ?></td>
-                        <td><? echo $key->book_id ?></td>
+                <table class="table table-brb" >
+                    <thead align="center">
+                        <tr>
+                            <th scope="col">ID Phiếu</th>
+                            <th scope="col">Tên sách</th>
+                            <th scope="col">ID sách</th>
+                            <th scope="col">Tên người dùng</th>
+                            <th scope="col">ID người dùng</th>
+                            <th scope="col">Ngày mượn</th>
+                            <th scope="col">Ngày trả</th>
+                            <th scope="col" style="width: 222px;">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody align="center">
+                    <? if(!isset($BRBobject->data)) {
+                            echo " <h5> Không có phiếu mượn.</h5>";
+                            return;
+                        } else { ?>
+                        <? foreach ($BRBobject->data as $key ) :?>
+                            
+                        <tr>
+                            <td><? echo $key->id  ?></td>
+                            <td><? echo $key->book_title  ?></td>
+                            <td><? echo $key->book_id ?></td>
 
-                        <td><? echo $key->user_name  ?></td>
-                        <td><? echo $key->user_id ?></td>
-                        <td><?echo $key->borrowed_day?></td>
-                        <td><?echo $key->returned_day?></td>
-                        <? if($key->status == 0) : 
+                            <td><? echo $key->user_name  ?></td>
+                            <td><? echo $key->user_id ?></td>
+                            <td><?echo $key->borrowed_day?></td>
+                            <td><?echo $key->returned_day?></td>
+                            <? if($key->status == 0) : 
 
-                     ?>
-                        <td>
-                            <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<? echo $key->id?>">Chấp nhận</a>
-                            <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>">Từ chối</a>
-                        </td>
-                    <? elseif($key->status == 1 ): ?>
-                        <td>
-                            <div class="btn px-0 py-1 btn-accept" style="width: 100px;">Đã chấp nhận</div>
-                        </td>
-                    <? elseif($key->status == 2) : ?>
-                        <td>
-                            <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Đã từ chối</div>
-                        </td>
-                    <? elseif($key->status == 3 ) : ?>
-                        <td>
-                        <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
-                        </td>
-                    <? endif ?>
-                    <??> 
-                    </tr>
-                    <? endforeach; }?>
+                        ?>
+                            <td>
+                                <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<? echo $key->id?>">Chấp nhận</a>
+                                <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>">Từ chối</a>
+                            </td>
+                        <? elseif($key->status == 1 ): ?>
+                            <td>
+                                <div class="btn px-0 py-1 btn-accept btn-disabled" style="width: 100px;">Đã chấp nhận</div>
+                            </td>
+                        <? elseif($key->status == 2) : ?>
+                            <td>
+                                <div class="btn px-0 py-1 btn-cancel btn-disabled" style="width: 100px;">Đã từ chối</div>
+                            </td>
+                        <? elseif($key->status == 3 ) : ?>
+                            <td>
+                            <div class="btn px-0 py-1 btn-cancel btn-disabled" style="width: 100px; background-color:green; ">Đã trả</div>
+                            </td>
+                        <? endif ?>
+                        <??> 
+                        </tr>
+                        <? endforeach; }?>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             </div>
-            
         </div>
     </div>
 </div>

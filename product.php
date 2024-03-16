@@ -1,6 +1,5 @@
 <? 
     require "./inc/init.php";
-    $conn = require('inc/db.php');
     require "./inc/header.php";
 ?>
 
@@ -22,8 +21,8 @@ $books_url = BOOK_URL . "/get_books.php";
     <!-- Hiển thị sản phẩm theo dạng card -->
     <div class="product_cards" id="book-container">
       <?php foreach($books as $key => $b): ?>
-          <div class="card" style="width: 16rem;">
-              <img src="<?php echo $b['image'] ?>" class="card-img-top" alt="...">
+          <div class="card card-product">
+              <img src="<?php echo ($b['image'] == "") ? "./uploads/no_image.jpg" : $b['image']; ?>" class="card-img-top" alt="...">
               <div class="card-body">
                   <h5 class="card-title"><?php echo $b['title'] ?></h5>
                   <p class="card-text"><?php echo $b['description'] ?></p>

@@ -71,8 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($httpCode === 200) {
         $object = json_decode($response);
         echo "<script> 
-        window.location.href = 'index.php';     
-    </script>";
+                window.location.href = 'index.php';     
+             </script>";
     } else {
         echo "<script> 
         var cmm = JSON.stringify($response); 

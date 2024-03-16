@@ -1,6 +1,5 @@
 <?
 require "./inc/init.php";
-$conn = require('inc/db.php');
 require "./inc/header.php";
 
 ?>
@@ -50,7 +49,8 @@ require "./inc/header.php";
     
         
     }
-    ?>
+?>
+
 <?
     function ReturnBRB($id){
         
@@ -101,8 +101,8 @@ require "./inc/header.php";
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
-            <table class="table">
+        <div class="col-lg-8 table-mobile">
+            <table class="table table-brb">
                 <thead align="center">
                     <tr>
                         <th scope="col">ID</th>
@@ -142,7 +142,7 @@ require "./inc/header.php";
                         </td>
                     <? elseif($key->status == 3 ) : ?>
                         <td>
-                        <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
+                            <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
                         </td>
                     <? endif ?>
                     <??> 

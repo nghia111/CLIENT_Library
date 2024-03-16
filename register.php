@@ -10,7 +10,6 @@
 
 
     if ($usernameError == "" && $passwordError == "") {
-      $conn = require "inc/db.php";
       $email = $_POST['email'];
       $password = $_POST['password'];
       $username = $_POST['name'];

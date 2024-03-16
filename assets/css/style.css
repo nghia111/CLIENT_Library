@@ -38,6 +38,7 @@ a {
   color: inherit;
 }
 
+
 .link-info {
   color: var(--primary-color) !important;
 }
@@ -67,6 +68,10 @@ a {
   background-color: #6c757d;
   border-color: #6c757d;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-disabled {
+  cursor: default;
 }
 
 .btn-cancel:hover {
@@ -269,9 +274,10 @@ a {
   
   .mobile-menu {
     display: none; 
+    width: 20%;
     position: absolute; 
-    top: 6%; 
-    right: 3%;
+    top: 8%; 
+    right: 0%;
     background-color: var(--color-creamson);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 100;
@@ -330,16 +336,6 @@ a {
 }
 
 /* END: header media queries */
-
-.mobile-menu {
-  display: none; 
-  position: absolute; 
-  top: 6%; 
-  right: 3%;
-  background-color: var(--color-creamson);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
 
 /* .banner {
   position: relative;
@@ -511,6 +507,10 @@ a {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+.card-product {
+  width: 16rem;
+}
+
 .card-header {
   background-color: var(--primary-color);
   border-radius: 15px 15px 0 0;
@@ -630,6 +630,16 @@ a {
   border-radius: 20px;
 }
 
+.table-brb {
+  max-height: 550px;
+  overflow-y: auto;
+  display: block;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 .admin-page table tr {
   vertical-align: middle;
 }
@@ -637,6 +647,8 @@ a {
 .user-page table tr {
   vertical-align: middle;
 }
+
+
 
 /* Footer */
 .footer {
@@ -775,12 +787,13 @@ a {
 
   .book-detail_img {
     padding: 0%;
+    min-height: -webkit-fill-available;
   }
 
   .book-detail_img img{
     padding: 0%;
-    width: 245px;
-    height: 390px;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
   }
 
   .book-detail_desc {
@@ -803,6 +816,20 @@ a {
     margin: 50px;
   }
 
+  /* Product */
+  .card-product {
+    width: -webkit-fill-available;
+  }
+
+  .btn-read-more {
+    margin-left: 40%;
+  }
+
+  /* Admin page && User page */
+  .table-mobile {
+    padding: 0;
+    margin-top: 20px;
+  }
   
   /* Login page and Register page */
   .form-login__info, .form-register__info {
@@ -847,7 +874,7 @@ a {
 
 @media screen and (max-width: 550px) {
   .content {
-    margin: 20px;
+    margin: 10px 0px;
   }
 
   /* banner */
@@ -858,12 +885,21 @@ a {
 
   .mobile-menu {
     display: none; 
+    width: 40%;
     position: absolute; 
     top: 10%; 
     right: 0%;
     background-color: var(--color-creamson);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 100;
+  }
+
+  /* Index */
+
+  .list-categories {
+    overflow-y: scroll;
+    display: block;
+    height: 400px;
   }
 
   /* Table index */
@@ -879,6 +915,11 @@ a {
   /* Book detail */
   .book-detail_img {
     padding: 15%;
+  }
+
+  .book-detail_img img{
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
   }
 
 
@@ -920,6 +961,10 @@ a {
     padding: 0;
   }
 
+  /* Product */
+  .title_product h2 {
+    font-size: 2rem;
+  }
 
   .footer__nav-item {
     margin: 0px 7px;

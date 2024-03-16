@@ -93,7 +93,9 @@
         // Xử lý kết quả từ API
         if ($httpCode === 200) {
             $object = json_decode($response);
-            header('Location: index.php'); 
+            echo "<script> 
+                    window.location.href = 'index.php';     
+                 </script>";
         } else {
             echo "<script> 
             var cmm = JSON.stringify($response); 

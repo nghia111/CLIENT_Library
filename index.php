@@ -1,6 +1,5 @@
 <?php
     require "inc/init.php";
-    $conn = require('inc/db.php');
     $books = [];
     $page = null;
     $categoryFilter = null;
@@ -24,12 +23,6 @@
     }
 ?>
 
-<?
-    // Đỗi từ category code thành category name
-    foreach ($books as $book) {
-        $book->category_code = Book::getCategoryFromCategoryCode($conn,$book->category_code);
-    };
-?>
 
 <!-- API  tất cả sách rồi thực hiện phân trang -->
 <?php
@@ -128,7 +121,7 @@
                 <h3 >Filter by Category</h3>
             </div>
             
-            <div class="list-group">
+            <div class="list-group list-categories">
                 <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
                 <?php foreach ($data_categories["categories"] as $category): ?>
                     <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == generateCode($category['value'])) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>

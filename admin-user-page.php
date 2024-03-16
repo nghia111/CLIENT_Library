@@ -103,7 +103,7 @@ require "./inc/header.php";
     <div class="user-page row">
         <div class="col-lg-4">
             <div class="user-information">
-            <h5 class="text-center mt-3">Thông tin người dùng </h5>
+                <h5 class="text-center mt-3">Thông tin người dùng </h5>
                 <div class="m-3">
                     <p>Tên : <? echo $ProfileObject->data[0]->name?></p>
                     <p>Email : <? echo $ProfileObject->data[0]->email?></p>
@@ -111,8 +111,8 @@ require "./inc/header.php";
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
-            <table class="table">
+        <div class="col-lg-8 table-mobile">
+            <table class="table table-brb">
                 <thead align="center">
                     <tr>
                         <th scope="col">ID</th>

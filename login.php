@@ -1,16 +1,13 @@
 <?
     require "inc/init.php";
     ini_set('display_errors', 'off');
-    $BASE_URL = "http://localhost/CT06/do_an/api/routes/auth";
 ?>
     <!-- LOGIN  -->
     <!-- Cấu hình URL và thông tin yêu cầu -->
 <?
-    $url = $BASE_URL . '/login.php'; // Thay thế bằng URL thực tế của bạn
+    $url = AUTH_URL . '/login.php'; // Thay thế bằng URL thực tế của bạn
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $conn = require "inc/db.php";
-
         $email = $_POST['email'];
         $password = $_POST['password'];
 

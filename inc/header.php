@@ -90,12 +90,13 @@
         <li><a href="product.php#product">Product</a></li>
         <li><a href="contact-us.php#contact">Contact</a></li>
         <? if (isset($_COOKIE['access_token'])) : ?>
-          <li><a href="./?log_out=true">Logout</a></li>
           <? if ($_COOKIE['role'] == "AD") : ?>
             <li><a href="add-book.php#add_book">Add Book</a></li>
+            <li><a href="./?log_out=true">Logout</a></li>
             <li><a href="admin-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
           <? endif; ?>
           <? if ($_COOKIE['role'] == "UR") : ?>
+            <li><a href="./?log_out=true">Logout</a></li>
             <li><a href="user-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
           <? endif; ?>
         <? else : ?>
@@ -112,9 +113,15 @@
             <li><a menu-link="Product" href="product.php">Product</a></li>
             <li><a menu-link="Contact" href="index.php#contact">Contact</a></li>
             <? if (isset($_COOKIE['access_token'])) : ?>
-              <li><a menu-link="Add Book" href="add-book.php#add_book">Add Book</a></li>
-              <li><a href="./?log_out=true">Logout</a></li>
-              <li><a href=""><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+              <? if ($_COOKIE['role'] == "AD") : ?>
+                <li><a href="add-book.php#add_book">Add Book</a></li>
+                <li><a href="./?log_out=true">Logout</a></li>
+                <li><a href="admin-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+              <? endif; ?>
+              <? if ($_COOKIE['role'] == "UR") : ?>
+                <li><a href="./?log_out=true">Logout</a></li>
+                <li><a href="user-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+              <? endif; ?>
             <? else : ?>
               <li><a href="login.php#login">Login</a></li>
             <? endif; ?>
