@@ -1,7 +1,6 @@
 
 <?
 require "./inc/init.php";
-$conn = require('inc/db.php');
 require "./inc/header.php";
 
 

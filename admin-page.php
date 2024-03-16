@@ -1,6 +1,5 @@
 <? 
     require "./inc/init.php";
-    $conn = require('inc/db.php');
     require "./inc/header.php";
     
     $BASE_URL = "http://localhost/CT06/do_an/api/routes";

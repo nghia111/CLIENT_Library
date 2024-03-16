@@ -163,20 +163,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      ?>
                         <td>
                             <a href="#" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chờ duyệt</a>
-                            <a href="index.php" class="btn btn-cancel">Cancel</a>
+                            
                         </td>
                     <? elseif($key->status == 1 ): ?>
                         <td>
-                            <a href="?borrow_id=<? echo $key->id?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Trả sách</a>
+                            <button class="btn"><a href="./book-detail.php?id=<?=htmlspecialchars($book['id'])?>&borrow=true">Read</a></button>
+                            <a href="index.php" class="btn btn-cancel">Cancel</a>
                         </td>
                     <? elseif($key->status == 2) : ?>
-                        <td>
-                            <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Đã từ chối</div>
-                        </td>
+                        <button class="btn"><a href="./book-detail.php?id=<?=htmlspecialchars($book['id'])?>&borrow=true">Borrow</a></button>
+                        <a href="index.php" class="btn btn-cancel">Cancel</a>
                     <? elseif($key->status == 3 ) : ?>
-                        <td>
-                            <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
-                        </td>
+                        <button class="btn"><a href="./book-detail.php?id=<?=htmlspecialchars($book['id'])?>&borrow=true">Borrow</a></button>
+                        <a href="index.php" class="btn btn-cancel">Cancel</a>
                     <? endif ?>
                     <??> 
                     </tr>
