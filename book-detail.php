@@ -182,37 +182,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <? elseif($role == "UR") : ?>
                             <?php
                                 $cancelButtonDisplayed = false;
-                                if (isset($BRBobject->data)){
-                                    foreach ($BRBobject->data as $key):
+                                if (isset($BRBobject->data)) {
+                                    foreach ($BRBobject->data as $key) {
                                         if ($key->book_id == $book['id']) {
-                                            if ($key->status == 0): ?>
-                                                <a href="#" class="btn">Chờ duyệt</a>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
-                                                <?php $cancelButtonDisplayed = true; ?>
-                                            <?php elseif ($key->status == 1): ?>
+                                            if ($key->status == 0) {
+                                                ?>
+                                                <a href="" class="btn">Chờ duyệt</a>
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel 1</a>
+                                                <?php $cancelButtonDisplayed = true;
+                                            } elseif (!$cancelButtonDisplayed && $key->status == 1) {
+                                                ?>
                                                 <button class="btn"><a href="https://drive.google.com/file/d/1kY5nMGIkaTB2yh0DeB39gOzESkBzL55L/view">Read</a></button>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
-                                                <?php $cancelButtonDisplayed = true; ?>
-                                            <?php elseif (!$cancelButtonDisplayed && in_array($key->status, [2, 3])): ?>
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel 2</a>
+                                                <?php $cancelButtonDisplayed = true;
+                                            } elseif (!$cancelButtonDisplayed && in_array($key->status, [2, 3])) {
+                                                ?>
                                                 <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
-                                                <a href="index.php#home" class="btn btn-cancel">Cancel</a>
-                                                <?php $cancelButtonDisplayed = true; ?>
-                                           
-                                            <?php endif;
-                                        }elseif(!$cancelButtonDisplayed){
-                                        ?>
-                                            <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
-                                            <a href="index.php#home" class="btn btn-cancel">Cancel</a>
-                                            <?php $cancelButtonDisplayed = true; ?>
-                                        <?    
+                                                <a href="index.php#home" class="btn btn-cancel">Cancel 3</a>
+                                                <?php $cancelButtonDisplayed = true;
+                                            }
                                         }
-                                    endforeach;
+                                    }
+                                    if (!$cancelButtonDisplayed) {
+                                        ?>
+                                        <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
+                                        <a href="index.php#home" class="btn btn-cancel">Cancel 4</a>
+                                        <?php
+                                    }
                                 } else {
-                            ?>
+                                    ?>
                                     <button class="btn"><a href="./book-detail.php?id=<?= htmlspecialchars($book['id']) ?>&borrow=true">Borrow</a></button>
                                     <a href="index.php#home" class="btn btn-cancel">Cancel</a>
-                                    <?php $cancelButtonDisplayed = true; ?>
-                            <?        
+                                    <?php $cancelButtonDisplayed = true;
                                 }
                             ?>
                         <? endif; ?>

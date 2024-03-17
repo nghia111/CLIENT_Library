@@ -93,7 +93,7 @@ require "./inc/header.php";
     <div class="user-page row">
         <div class="col-lg-4">
             <div class="user-information">
-            <h5 class="text-center mt-3">Thông tin quản trị viên</h5>
+            <h5 class="text-center mt-3">Thông tin cá nhân</h5>
                 <div class="m-3">
                     <p>Tên : <? echo $ProfileObject->data->name?></p>
                     <p>Email : <? echo $ProfileObject->data->email?></p>
@@ -138,7 +138,7 @@ require "./inc/header.php";
                         </td>
                     <? elseif($key->status == 2) : ?>
                         <td>
-                            <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Đã từ chối</div>
+                            <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Bị từ chối</div>
                         </td>
                     <? elseif($key->status == 3 ) : ?>
                         <td>

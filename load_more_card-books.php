@@ -23,7 +23,7 @@
             <div class="card-body">
                 <h5 class="card-title"><?php echo $b['title'] ?></h5>
                 <p class="card-text"><?php echo $b['description'] ?></p>
-                <a href="#" class="btn btn-primary">Book Detail</a>
+                <a href="book-detail.php?id=<?php echo htmlspecialchars($b['id']); ?>#book_detail" class="btn btn-primary">Book Detail</a>
             </div>
         </div>
 <?php endforeach; ?>

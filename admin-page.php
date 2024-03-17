@@ -145,19 +145,20 @@
                         </tr>
                     </thead>
                     <tbody align="center">
-                        
-                    <? foreach ($UserObject->data as $key ) :?>
-                            
-                            <tr>
-                                <td><? echo $key->id  ?></td>
-                                <td><? echo $key->name  ?></td>
-                                <td><? echo $key->email  ?></td>
-                                <td>
-                                    <a href="admin-user-page.php?id=<? echo $key->id ?>#admin-user" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
-                                    
-                                </td>
-                            </tr>
-                    <? endforeach; ?>
+                    <? if(isset($UserObject->data) ) : ?>    
+                        <? foreach ($UserObject->data as $key ) :?>
+                                <tr>
+                                    <td><? echo $key->id  ?></td>
+                                    <td><? echo $key->name  ?></td>
+                                    <td><? echo $key->email  ?></td>
+                                    <td>
+                                        <a href="admin-user-page.php?id=<? echo $key->id ?>#admin-user" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
+                                    </td>
+                                </tr>
+                        <? endforeach; ?>
+                    <? else : ?>
+                        <h5> Không có User.</h5>
+                    <? endif; ?>        
                     </tbody>
                 </table>
             </div>
