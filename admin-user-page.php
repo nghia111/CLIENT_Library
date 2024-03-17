@@ -76,18 +76,18 @@ require "./inc/header.php";
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-            $ProfileResponse = curl_exec($ch);
+            $response = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
         if ($httpCode === 200) {
             echo "<script> 
-                var cmm = JSON.stringify($ProfileResponse); 
+                var cmm = JSON.stringify($response); 
                 alert(cmm)    
                 window.location.href = 'admin-page.php'; 
             </script>";
         } else {  
             echo "<script> 
-                var cmm = JSON.stringify($ProfileResponse); 
+                var cmm = JSON.stringify($response); 
                 alert(cmm)      
             </script>";
         }
@@ -98,7 +98,7 @@ require "./inc/header.php";
       }
 ?>
 
-<div class="content">
+<div class="content" id="admin-user">
     <div class="user-page row">
         <div class="col-lg-4">
             <div class="user-information">
@@ -139,7 +139,7 @@ require "./inc/header.php";
                         
                         <td>
                             <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<? echo $key->id?>&id=<?echo $key->user_id?> ">Chấp nhận</a>
-                            <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>">Từ chối</a>
+                            <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>&id=<?echo $key->user_id?>">Từ chối</a>
                         </td>
                         
                     <? elseif($key->status == 1 ): ?>

@@ -89,7 +89,7 @@ require "./inc/header.php";
         ReturnBRB($borrow_id);
       }
 ?>
-<div class="content">
+<div class="content" id="user">
     <div class="user-page row">
         <div class="col-lg-4">
             <div class="user-information">

@@ -114,7 +114,7 @@
     require "./inc/header.php";
 ?>
 
-<div class="content">
+<div class="content" id="home">
     <div class="row"> 
         <div class="filter col-md-3">
             <div class="filter-title mb-2">

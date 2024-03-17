@@ -44,13 +44,12 @@
             $refreshToken =  $object->refresh_token;
             $role = $object->role;
 
-            echo $response;
-
-            //add to local storage
-            $expirationTime = time() + (5 * 24 * 60 * 60);
-            setcookie("access_token", $accessToken, $expirationTime, "/");
-            setcookie("refresh_token", $refreshToken, $expirationTime, "/");
-            setcookie("role", $role, $expirationTime, "/");
+            $expirationAccessTokenTime = $object->expirationAccessTokenTime;
+            $expirationRefreshTokenTime = $object->expirationRefreshTokenTime;
+            // Thêm vào cookie
+            setcookie("access_token", $accessToken, $expirationAccessTokenTime, "/");
+            setcookie("refresh_token", $refreshToken, $expirationRefreshTokenTime, "/");
+            setcookie("role", $role, $expirationAccessTokenTime, "/");
             header("Location: index.php");
         } else {
             // Xử lý lỗi

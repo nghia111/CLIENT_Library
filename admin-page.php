@@ -120,7 +120,7 @@
       }
 ?>
 
-<div class="content">
+<div class="content" id="admin">
     <div class="admin-page row"> 
         <div class="col-lg-12">
             <div class="user-information">
@@ -153,7 +153,7 @@
                                 <td><? echo $key->name  ?></td>
                                 <td><? echo $key->email  ?></td>
                                 <td>
-                                    <a href="admin-user-page.php?id=<? echo $key->id ?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
+                                    <a href="admin-user-page.php?id=<? echo $key->id ?>#admin-user" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chi tiết</a>
                                     
                                 </td>
                             </tr>

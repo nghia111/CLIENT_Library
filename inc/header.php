@@ -1,3 +1,71 @@
+
+
+<?
+  function refresh_token(){
+    if (isset($_COOKIE['refresh_token'])) {
+        // Gọi API refresh_token
+        $url = "http://localhost/CT06/do_an/api/routes/auth" . '/refresh_token.php'; // Thay thế bằng URL thực tế của bạn
+  
+        $refreshToken = $_COOKIE['refresh_token'];
+  
+        $refreshTokenData = array(
+            'refresh_token' => "Bearer ".$refreshToken,
+        );
+  
+        $ch = curl_init($url);
+  
+        $headers = array(
+            "Content-Type: application/x-www-form-urlencoded",
+        );
+  
+        // Cấu hình cURL
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($refreshTokenData));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  
+        // Gửi yêu cầu và nhận phản hồi
+        $response = curl_exec($ch);
+  
+        // Kiểm tra mã phản hồi HTTP
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  
+        // Đóng kết nối cURL
+        curl_close($ch);
+  
+        if ($httpCode === 200) {
+            // Xử lý phản hồi thành công
+            $object = json_decode($response);
+            $newAccessToken = $object->access_token;
+            $newRefreshToken = $object->refresh_token;
+            $role = $object->role;
+            $expirationAccessTokenTime = $object->expirationAccessTokenTime;
+            $expirationRefreshTokenTime = $object->expirationRefreshTokenTime;
+            // Thêm vào cookie
+            setcookie("access_token", $newAccessToken, $expirationAccessTokenTime, "/");
+            setcookie("refresh_token", $newRefreshToken, $expirationRefreshTokenTime, "/");
+            setcookie("role", $role, $expirationAccessTokenTime, "/");
+            echo '<script type="text/javascript">';
+            echo 'location.reload();';
+            echo '</script>';
+            echo '<script type="text/javascript">';
+            echo 'location.reload();';
+            echo '</script>';
+                        } else {
+            // Xử lý lỗi
+            echo "<script> 
+                var cmm = JSON.stringify('Lỗi khi thực hiện refresh token: $response'); 
+                alert(cmm);      
+             </script>";
+        }
+    }
+  }
+  if(!isset($_COOKIE['access_token'])){
+    refresh_token();
+  }
+
+?>
+
 <?
   function logOut(){
     $access_token = "";
@@ -86,18 +154,18 @@
       </div>
 
       <ul class="header__menu" data-aos="fade-down">
-        <li><a href="index.php">Home</a></li>
+        <li><a href="index.php#home">Home</a></li>
         <li><a href="product.php#product">Product</a></li>
         <li><a href="contact-us.php#contact">Contact</a></li>
         <? if (isset($_COOKIE['access_token'])) : ?>
           <? if ($_COOKIE['role'] == "AD") : ?>
             <li><a href="add-book.php#add_book">Add Book</a></li>
             <li><a href="./?log_out=true">Logout</a></li>
-            <li><a href="admin-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+            <li><a href="admin-page.php#admin"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
           <? endif; ?>
           <? if ($_COOKIE['role'] == "UR") : ?>
             <li><a href="./?log_out=true">Logout</a></li>
-            <li><a href="user-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+            <li><a href="user-page.php#user"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
           <? endif; ?>
         <? else : ?>
           <li><a href="login.php#login">Login</a></li>
@@ -109,18 +177,18 @@
         <img src="./assets/img/menu.svg" alt="menu" class="menu-icon">
         <div class="mobile-menu">
           <ul class="mobile__menu-list">
-            <li><a menu-link="Home" href="index.php">Home</a></li>
-            <li><a menu-link="Product" href="product.php">Product</a></li>
+            <li><a menu-link="Home" href="index.php#home">Home</a></li>
+            <li><a menu-link="Product" href="product.php#product">Product</a></li>
             <li><a menu-link="Contact" href="index.php#contact">Contact</a></li>
             <? if (isset($_COOKIE['access_token'])) : ?>
               <? if ($_COOKIE['role'] == "AD") : ?>
                 <li><a href="add-book.php#add_book">Add Book</a></li>
                 <li><a href="./?log_out=true">Logout</a></li>
-                <li><a href="admin-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+                <li><a href="admin-page.php#admin"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
               <? endif; ?>
               <? if ($_COOKIE['role'] == "UR") : ?>
                 <li><a href="./?log_out=true">Logout</a></li>
-                <li><a href="user-page.php"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
+                <li><a href="user-page.php#user"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
               <? endif; ?>
             <? else : ?>
               <li><a href="login.php#login">Login</a></li>
@@ -130,12 +198,6 @@
       </div>
     </nav>
   </header>
-
-  <!-- Banner củ -->
-  <!-- <div class="banner">
-    <div class="cover"></div>
-    <img class="banner_img" src="./assets/img/banner-header.png" alt="banner">
-  </div> -->
 
   <!-- Banner -->
   <div class="content">
