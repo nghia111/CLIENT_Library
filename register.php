@@ -1,8 +1,8 @@
-<?php
+<?php 
   require "inc/init.php";
 ?>
 
-<?
+<?php 
   
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usernameError = "";
@@ -59,7 +59,7 @@
   }
 ?>
 
-<?php
+<?php 
   require "inc/header.php";
 ?>
 
@@ -123,4 +123,4 @@
   </section>
 </div>
 
-<?php require "inc/footer.php"; ?>
+<?php  require "inc/footer.php"; ?>

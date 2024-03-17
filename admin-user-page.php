@@ -1,11 +1,11 @@
 
-<?
+<?php 
 require "./inc/init.php";
 require "./inc/header.php";
 
 
 ?>
-<?
+<?php 
         $userId = $_GET['id'];
         $ProfileUrl = USER_URL . "/get_users.php" . "?id=" . $userId ;
         $ch = curl_init($ProfileUrl);
@@ -31,7 +31,7 @@ require "./inc/header.php";
 ?>
 
 
-<?
+<?php 
 
     $BRBId = $_GET['id'];
     $AllBRB_url =  BRB_URL . "/get_borrow_return_books.php" . "?user_id=" . $BRBId;
@@ -59,7 +59,7 @@ require "./inc/header.php";
     }
     ?>
 
-<?
+<?php 
     function AcceptRejectBRB($id){
         $type = $_GET['type'];
         $processUrl = BRB_URL . "/accept_reject_borrow.php?type=" . $type;
@@ -104,9 +104,9 @@ require "./inc/header.php";
             <div class="user-information">
                 <h5 class="text-center mt-3">Thông tin người dùng </h5>
                 <div class="m-3">
-                    <p>Tên : <? echo $ProfileObject->data[0]->name?></p>
-                    <p>Email : <? echo $ProfileObject->data[0]->email?></p>
-                    <p>Role : <? echo $ProfileObject->data[0]->role?></p>
+                    <p>Tên : <?php  echo $ProfileObject->data[0]->name?></p>
+                    <p>Email : <?php  echo $ProfileObject->data[0]->email?></p>
+                    <p>Role : <?php  echo $ProfileObject->data[0]->role?></p>
                 </div>
             </div>
         </div>
@@ -122,46 +122,46 @@ require "./inc/header.php";
                     </tr>
                 </thead>
                 <tbody align="center">
-                    <? if(!isset($BRBobject->data)) {
+                    <?php  if(!isset($BRBobject->data)) {
                         echo " <h5> Không có phiếu mượn.</h5>";
                         return;
                     } else { ?>
-                     <? foreach ($BRBobject->data as $key ) :?>
+                     <?php  foreach ($BRBobject->data as $key ) :?>
                         
                     <tr>
-                        <td><? echo $key->id  ?></td>
-                        <td><? echo $key->book_title  ?></td>                 
-                        <td><?echo $key->borrowed_day?></td>
-                        <td><?echo $key->returned_day?></td>
-                        <? if($key->status == 0) : 
+                        <td><?php  echo $key->id  ?></td>
+                        <td><?php  echo $key->book_title  ?></td>                 
+                        <td><?php echo $key->borrowed_day?></td>
+                        <td><?php echo $key->returned_day?></td>
+                        <?php  if($key->status == 0) : 
 
                      ?>
                         
                         <td>
-                            <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<? echo $key->id?>&id=<?echo $key->user_id?> ">Chấp nhận</a>
-                            <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<? echo $key->id?>&id=<?echo $key->user_id?>">Từ chối</a>
+                            <a  class="btn px-0 py-1 btn-accept" style="width: 100px;" href="?type=1&borrow_id=<?php  echo $key->id?>&id=<?php echo $key->user_id?> ">Chấp nhận</a>
+                            <a  class="btn px-0 py-1 btn-cancel" style="width: 100px;" href="?type=2&borrow_id=<?php  echo $key->id?>&id=<?php echo $key->user_id?>">Từ chối</a>
                         </td>
                         
-                    <? elseif($key->status == 1 ): ?>
+                    <?php  elseif($key->status == 1 ): ?>
                         <td>
                             <div class="btn px-0 py-1 btn-accept" style="width: 100px;" >Đã chấp nhận</div>
                         </td>
-                    <? elseif($key->status == 2) : ?>
+                    <?php  elseif($key->status == 2) : ?>
                         <td>
                             <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Đã từ chối</div>
                         </td>
-                    <? elseif($key->status == 3 ) : ?>
+                    <?php  elseif($key->status == 3 ) : ?>
                         <td>
                         <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
                         </td>
-                    <? endif ?>
-                    <??> 
+                    <?php  endif ?>
+                    <?php ?> 
                     </tr>
-                    <? endforeach; } ?>
+                    <?php  endforeach; } ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<? require "./inc/footer.php"; ?>
+<?php  require "./inc/footer.php"; ?>

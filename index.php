@@ -1,4 +1,4 @@
-<?php
+<?php 
     require "inc/init.php";
     $books = [];
     $page = null;
@@ -7,7 +7,7 @@
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
-<?
+<?php 
     $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
@@ -25,7 +25,7 @@
 
 
 <!-- API  tất cả sách rồi thực hiện phân trang -->
-<?php
+<?php 
     function generateCode($value){
         $code = $value[0]. $value[-1].$value[1] .strlen($value) ;
         return strtoupper($code);
@@ -110,7 +110,7 @@
     }
 ?>
 
-<? 
+<?php  
     require "./inc/header.php";
 ?>
 
@@ -122,10 +122,10 @@
             </div>
             
             <div class="list-group list-categories">
-                <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
-                <?php foreach ($data_categories["categories"] as $category): ?>
-                    <button type="button" class="list-group-item list-group-item-action <?php echo ($categoryFilter == generateCode($category['value'])) ? 'active' : ''; ?>" data-category="<?php echo $category['value']; ?>"><?php echo $category['value']; ?></button>
-                <?php endforeach; ?> 
+                <button type="button" class="list-group-item list-group-item-action <?php  echo ($categoryFilter == '') ? 'active' : ''; ?>" data-category="">All</button>
+                <?php  foreach ($data_categories["categories"] as $category): ?>
+                    <button type="button" class="list-group-item list-group-item-action <?php  echo ($categoryFilter == generateCode($category['value'])) ? 'active' : ''; ?>" data-category="<?php  echo $category['value']; ?>"><?php  echo $category['value']; ?></button>
+                <?php  endforeach; ?> 
             </div>
              
         </div>
@@ -155,25 +155,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
+                    <?php 
                         $no = ($page - 1) * $booksPerPage + 1;
                         if(isset($books) && is_array($books)) { // Kiểm tra nếu có dữ liệu sách trả về và là một mảng
                             foreach ($books as $book) {
                     ?>
                                     <tr>
-                                        <td align="center"><?php echo $no++; ?></td>
-                                        <td align="center"><?php echo $book['title']; ?></td>
-                                        <td class="col-mobile" align="center"><?php echo $book['category_value']; ?></td>
-                                        <td class="col-mobile"><?php echo $book['description']; ?></td>
-                                        <td align="center"><?php echo $book['author']; ?></td>
+                                        <td align="center"><?php  echo $no++; ?></td>
+                                        <td align="center"><?php  echo $book['title']; ?></td>
+                                        <td class="col-mobile" align="center"><?php  echo $book['category_value']; ?></td>
+                                        <td class="col-mobile"><?php  echo $book['description']; ?></td>
+                                        <td align="center"><?php  echo $book['author']; ?></td>
                                         <td align="center">
-                                            <!-- <img src="<?php echo $book['image']; ?>" alt="" width="100" height="150"> -->
-                                            <img src="<?php echo ($book['image'] == "") ? "./uploads/no_image.jpg" : $book['image']; ?>" alt="image book" width="100" height="150">
-                                            <a class="btn btn-read_more" href="book-detail.php?id=<?=htmlspecialchars($book['id'])?>#book_detail">Detail</a>
+                                            <!-- <img src="<?php  echo $book['image']; ?>" alt="" width="100" height="150"> -->
+                                            <img src="<?php  echo ($book['image'] == "") ? "./uploads/no_image.jpg" : $book['image']; ?>" alt="image book" width="100" height="150">
+                                            <a class="btn btn-read_more" href="book-detail.php?id=<?php echo htmlspecialchars($book['id'])?>#book_detail">Detail</a>
                                         </td>
                                     </tr>
                                 
-                    <?php }
+                    <?php  }
                         } else {
                             echo "<tr><td colspan='6'>No books found</td></tr>"; // Thông báo nếu không có sách nào được tìm thấy
                         }
@@ -189,7 +189,7 @@
             <div class="pagination justify-content-center">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <?php
+                        <?php 
                             $currentSearch = isset($_GET['search']) ? $_GET['search'] : '';
                             $currentCategory = isset($_GET['category']) ? $_GET['category'] : ''; 
                             $pageUrl = '';
@@ -243,6 +243,6 @@
     });
 </script>
 
-<?php
+<?php 
     require "./inc/footer.php";
 ?>

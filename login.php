@@ -1,10 +1,10 @@
-<?
+<?php 
     require "inc/init.php";
     ini_set('display_errors', 'off');
 ?>
     <!-- LOGIN  -->
     <!-- Cấu hình URL và thông tin yêu cầu -->
-<?
+<?php 
     $url = AUTH_URL . '/login.php'; // Thay thế bằng URL thực tế của bạn
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -61,7 +61,7 @@
     }
 ?>
 
-<?php
+<?php 
     require "./inc/header.php";
 ?>
 
@@ -115,4 +115,4 @@
     </section>
 </div>
 
-<?php require "inc/footer.php";?>
+<?php  require "inc/footer.php";?>

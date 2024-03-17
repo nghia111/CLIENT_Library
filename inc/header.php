@@ -1,10 +1,10 @@
 
 
-<?
+<?php 
   function refresh_token(){
     if (isset($_COOKIE['refresh_token'])) {
         // Gọi API refresh_token
-        $url = "http://localhost/CT06/do_an/api/routes/auth" . '/refresh_token.php'; // Thay thế bằng URL thực tế của bạn
+        $url = "http://localhost/api_library/routes/auth" . '/refresh_token.php'; // Thay thế bằng URL thực tế của bạn
   
         $refreshToken = $_COOKIE['refresh_token'];
   
@@ -66,7 +66,7 @@
 
 ?>
 
-<?
+<?php 
   function logOut(){
     $access_token = "";
     $refresh_token = "";
@@ -81,7 +81,7 @@
     if (isset($_COOKIE['role'])) {
       $role = $_COOKIE['role'];
     }
-    $BASE_URL = "http://localhost/CT06/do_an/api/routes/auth";
+    $BASE_URL = "http://localhost/api_library/routes/auth";
     // Cấu hình URL và thông tin yêu cầu
     $url = $BASE_URL . '/logout.php'; // Thay thế bằng URL thực tế của bạn
 
@@ -157,19 +157,19 @@
         <li><a href="index.php#home">Home</a></li>
         <li><a href="product.php#product">Product</a></li>
         <li><a href="contact-us.php#contact">Contact</a></li>
-        <? if (isset($_COOKIE['access_token'])) : ?>
-          <? if ($_COOKIE['role'] == "AD") : ?>
+        <?php  if (isset($_COOKIE['access_token'])) : ?>
+          <?php  if ($_COOKIE['role'] == "AD") : ?>
             <li><a href="add-book.php#add_book">Add Book</a></li>
             <li><a href="./?log_out=true">Logout</a></li>
             <li><a href="admin-page.php#admin"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
-          <? endif; ?>
-          <? if ($_COOKIE['role'] == "UR") : ?>
+          <?php  endif; ?>
+          <?php  if ($_COOKIE['role'] == "UR") : ?>
             <li><a href="./?log_out=true">Logout</a></li>
             <li><a href="user-page.php#user"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
-          <? endif; ?>
-        <? else : ?>
+          <?php  endif; ?>
+        <?php  else : ?>
           <li><a href="login.php#login">Login</a></li>
-        <? endif; ?>
+        <?php  endif; ?>
       </ul>
 
       <!-- Menu mobile -->
@@ -180,19 +180,19 @@
             <li><a menu-link="Home" href="index.php#home">Home</a></li>
             <li><a menu-link="Product" href="product.php#product">Product</a></li>
             <li><a menu-link="Contact" href="index.php#contact">Contact</a></li>
-            <? if (isset($_COOKIE['access_token'])) : ?>
-              <? if ($_COOKIE['role'] == "AD") : ?>
+            <?php  if (isset($_COOKIE['access_token'])) : ?>
+              <?php  if ($_COOKIE['role'] == "AD") : ?>
                 <li><a href="add-book.php#add_book">Add Book</a></li>
                 <li><a href="./?log_out=true">Logout</a></li>
                 <li><a href="admin-page.php#admin"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
-              <? endif; ?>
-              <? if ($_COOKIE['role'] == "UR") : ?>
+              <?php  endif; ?>
+              <?php  if ($_COOKIE['role'] == "UR") : ?>
                 <li><a href="./?log_out=true">Logout</a></li>
                 <li><a href="user-page.php#user"><img class="avatar" src="./assets/img/avatar.jpg" alt="avatar"></a></li>
-              <? endif; ?>
-            <? else : ?>
+              <?php  endif; ?>
+            <?php  else : ?>
               <li><a href="login.php#login">Login</a></li>
-            <? endif; ?>
+            <?php  endif; ?>
           </ul>
         </div>
       </div>

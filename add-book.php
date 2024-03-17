@@ -1,13 +1,13 @@
-<?
+<?php 
     require "inc/init.php";
 ?>
 
-<?
+<?php 
     require "inc/header.php";
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
-<?
+<?php 
     $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
@@ -24,7 +24,7 @@
 ?>
 
 <!-- API tạo sách -->
-<?
+<?php 
     // Kiểm tra nếu có dữ liệu được gửi đi từ form POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Thu thập dữ liệu từ form
@@ -108,9 +108,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category" required>
-                        <?php foreach ($data_categories["categories"] as $category): ?>
-                            <option value="<?php echo $category['code']; ?>"><?php echo $category['value']; ?></option>
-                        <?php endforeach; ?> 
+                        <?php  foreach ($data_categories["categories"] as $category): ?>
+                            <option value="<?php  echo $category['code']; ?>"><?php  echo $category['value']; ?></option>
+                        <?php  endforeach; ?> 
                         </select>
                     </div>
                     <div class="form-group">
@@ -145,6 +145,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 </script>
 
-<?
+<?php 
     require "inc/footer.php";
 ?>

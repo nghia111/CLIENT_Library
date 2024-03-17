@@ -1,13 +1,13 @@
-<?
+<?php 
     require "inc/init.php";
 ?>
 
-<?
+<?php 
     require "inc/header.php";
 ?>
 
 <!-- API lấy tất cả tên thể loại của sách -->
-<?
+<?php 
     $url = BOOK_URL . "/get_all_categories.php";
     $response = file_get_contents($url);
     if ($response === false) {
@@ -24,7 +24,7 @@
 ?>
 
  <!-- Lấy thông tin sách theo ID -->
-<?
+<?php 
     $id = $_GET['id'];
     try {
         $api_params = BOOK_URL . "/get_book_by_id.php?id=$id";
@@ -45,7 +45,7 @@
 ?>
 
 <!-- API update sách -->
-<?
+<?php 
     // Kiểm tra nếu có dữ liệu được gửi đi từ form POST
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Thu thập dữ liệu từ form
@@ -113,40 +113,40 @@
             <h3 class="mb-0 text-center">Update Book</h3>
           </div>
           <div class="card-body">
-            <form class="row" action="update-book.php?id=<?= $id ?>" method="POST">
+            <form class="row" action="update-book.php?id=<?php echo  $id ?>" method="POST">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="image">Image URL</label>
-                        <input type="url" class="form-control" id="image" name="image" value="<?=htmlspecialchars($book['image'])?>" oninput="displayImage(this.value)">
+                        <input type="url" class="form-control" id="image" name="image" value="<?php echo htmlspecialchars($book['image'])?>" oninput="displayImage(this.value)">
                     </div>
                     <div class="img_upload form-group">
-                        <img id="book-image" src="<?php echo ($book['image'] == "") ? "./uploads/no_image.jpg" : $book['image']; ?>" alt="Book Image" style="max-width: 80%; height: auto;">
+                        <img id="book-image" src="<?php  echo ($book['image'] == "") ? "./uploads/no_image.jpg" : $book['image']; ?>" alt="Book Image" style="max-width: 80%; height: auto;">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="<?=htmlspecialchars($book['title'])?>" required>
+                        <input type="text" class="form-control" id="title" name="title" value="<?php echo htmlspecialchars($book['title'])?>" required>
                     </div>
                     <div class="form-group">
                         <label for="available">Available</label>
-                        <input type="number" class="form-control" id="available" name="available" value="<?=htmlspecialchars($book['available'])?>" required>
+                        <input type="number" class="form-control" id="available" name="available" value="<?php echo htmlspecialchars($book['available'])?>" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea va class="form-control" id="description" name="description" rows="3" required><?=htmlspecialchars($book['description'])?></textarea>
+                        <textarea va class="form-control" id="description" name="description" rows="3" required><?php echo htmlspecialchars($book['description'])?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category" required>
-                        <?php foreach ($data_categories["categories"] as $category): ?>
-                            <option value="<?php echo $category['code']; ?>"><?php echo $category['value']; ?></option>
-                        <?php endforeach; ?> 
+                        <?php  foreach ($data_categories["categories"] as $category): ?>
+                            <option value="<?php  echo $category['code']; ?>"><?php  echo $category['value']; ?></option>
+                        <?php  endforeach; ?> 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="author">Author</label>
-                        <input type="text" class="form-control" id="author" name="author" value="<?=htmlspecialchars($book['author'])?>" required>
+                        <input type="text" class="form-control" id="author" name="author" value="<?php echo htmlspecialchars($book['author'])?>" required>
                     </div>
                 </div>
               <div class="button-group">
@@ -167,6 +167,6 @@
     }
 </script>
 
-<?
+<?php 
     require "inc/footer.php";
 ?>

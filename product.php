@@ -1,9 +1,9 @@
-<? 
+<?php  
     require "./inc/init.php";
     require "./inc/header.php";
 ?>
 
-<?         
+<?php          
 $books_url = BOOK_URL . "/get_books.php";
     // Gửi yêu cầu GET đến API để lấy dữ liệu sách
     $response = file_get_contents($books_url . "?limit=99&page=1");
@@ -20,17 +20,17 @@ $books_url = BOOK_URL . "/get_books.php";
     
     <!-- Hiển thị sản phẩm theo dạng card -->
     <div class="product_cards" id="book-container">
-      <?php foreach($books as $key => $b): ?>
+      <?php  foreach($books as $key => $b): ?>
           <div class="card card-product">
-              <img src="<?php echo ($b['image'] == "") ? "./uploads/no_image.jpg" : $b['image']; ?>" class="card-img-top" alt="...">
+              <img src="<?php  echo ($b['image'] == "") ? "./uploads/no_image.jpg" : $b['image']; ?>" class="card-img-top" alt="...">
               <div class="card-body">
-                  <h5 class="card-title"><?php echo $b['title'] ?></h5>
-                  <p class="card-text"><?php echo $b['description'] ?></p>
-                  <a href="book-detail.php?id=<?=htmlspecialchars($b['id'])?>#book_detail" class="btn btn-read">Book Detail</a>
+                  <h5 class="card-title"><?php  echo $b['title'] ?></h5>
+                  <p class="card-text"><?php  echo $b['description'] ?></p>
+                  <a href="book-detail.php?id=<?php echo htmlspecialchars($b['id'])?>#book_detail" class="btn btn-read">Book Detail</a>
               </div>
           </div>
-          <?php if ($key == 7) break; ?> <!-- Stop after showing 8 books -->
-      <?php endforeach; ?>
+          <?php  if ($key == 7) break; ?> <!-- Stop after showing 8 books -->
+      <?php  endforeach; ?>
   </div>
   <button id="load-more-btn" class="btn btn-read-more">Read more</button>
 
@@ -56,4 +56,4 @@ $books_url = BOOK_URL . "/get_books.php";
 </script>
 
 
-<? require "./inc/footer.php";?>
+<?php  require "./inc/footer.php";?>

@@ -1,9 +1,9 @@
-<?
+<?php 
 require "./inc/init.php";
 require "./inc/header.php";
 
 ?>
-<?
+<?php 
         $ProfileUrl = USER_URL . "/get_my_profile.php";
         $ch = curl_init($ProfileUrl);
         $headers = array(
@@ -28,7 +28,7 @@ require "./inc/header.php";
 ?>
 
 
-<?
+<?php 
     $AllBRB_url = BRB_URL . "/get_my_borrow_return_books.php";
 
     $ch = curl_init($AllBRB_url);
@@ -51,7 +51,7 @@ require "./inc/header.php";
     }
 ?>
 
-<?
+<?php 
     function ReturnBRB($id){
         
         $processUrl =  BRB_URL . "/create_return_book.php" ;
@@ -95,9 +95,9 @@ require "./inc/header.php";
             <div class="user-information">
             <h5 class="text-center mt-3">Thông tin cá nhân</h5>
                 <div class="m-3">
-                    <p>Tên : <? echo $ProfileObject->data->name?></p>
-                    <p>Email : <? echo $ProfileObject->data->email?></p>
-                    <p>Role : <? echo $ProfileObject->data->role?></p>
+                    <p>Tên : <?php  echo $ProfileObject->data->name?></p>
+                    <p>Email : <?php  echo $ProfileObject->data->email?></p>
+                    <p>Role : <?php  echo $ProfileObject->data->role?></p>
                 </div>
             </div>
         </div>
@@ -113,45 +113,45 @@ require "./inc/header.php";
                     </tr>
                 </thead>
                 <tbody align="center">
-                    <? if(!isset($BRBobject->data)) {
+                    <?php  if(!isset($BRBobject->data)) {
                         echo " <h5> Không có lệnh đang mượn.</h5>";
                         return;
                     } else { ?>
-                     <? foreach ($BRBobject->data as $key ) :?>
+                     <?php  foreach ($BRBobject->data as $key ) :?>
                         
                     <tr>
-                        <td><? echo $key->id  ?></td>
-                        <td><? echo $key->book_title  ?></td>
-                        <td><? echo $key->borrowed_day ?></td>
-                        <td><? echo $key->returned_day  ?></td>
+                        <td><?php  echo $key->id  ?></td>
+                        <td><?php  echo $key->book_title  ?></td>
+                        <td><?php  echo $key->borrowed_day ?></td>
+                        <td><?php  echo $key->returned_day  ?></td>
                     
-                        <? if($key->status == 0) : 
+                        <?php  if($key->status == 0) : 
 
                      ?>
                         <td>
                             <a href="#" class="btn px-0 py-1 btn-accept" style="width: 100px;">Chờ duyệt</a>
                             
                         </td>
-                    <? elseif($key->status == 1 ): ?>
+                    <?php  elseif($key->status == 1 ): ?>
                         <td>
-                            <a href="?borrow_id=<? echo $key->id?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Trả sách</a>
+                            <a href="?borrow_id=<?php  echo $key->id?>" class="btn px-0 py-1 btn-accept" style="width: 100px;">Trả sách</a>
                         </td>
-                    <? elseif($key->status == 2) : ?>
+                    <?php  elseif($key->status == 2) : ?>
                         <td>
                             <div class="btn px-0 py-1 btn-cancel" style="width: 100px;">Bị từ chối</div>
                         </td>
-                    <? elseif($key->status == 3 ) : ?>
+                    <?php  elseif($key->status == 3 ) : ?>
                         <td>
                             <div href="#" class="btn px-0 py-1 btn-cancel" style="width: 100px; background-color:green; ">Đã trả</div>
                         </td>
-                    <? endif ?>
-                    <??> 
+                    <?php  endif ?>
+                    <?php ?> 
                     </tr>
-                    <? endforeach; } ?>
+                    <?php  endforeach; } ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<? require "./inc/footer.php"; ?>
+<?php  require "./inc/footer.php"; ?>
